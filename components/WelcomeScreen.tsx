@@ -1,11 +1,12 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import hexToRgba from 'hex-to-rgba'
+import { StyleSheet } from 'react-native';
+import hexToRgba from 'hex-to-rgba';
 
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
+import { commonStyles } from '../utils/styles';
 
 export default function WelcomeScreen() {
   return (
@@ -24,7 +25,7 @@ export default function WelcomeScreen() {
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Use the <MonoText style={[styles.monoText, styles.highLighted]}>
+          Use the <MonoText style={[styles.monoText, commonStyles.highLighted]}>
             bottom navigator,
           </MonoText>
           Or Sign in on the top right corner
@@ -42,10 +43,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: 'transparent',
-  },
-  highLighted: {
-    backgroundColor: hexToRgba('00c851', 0.5),
-    marginHorizontal: 10,
   },
   getStartedContainer: {
     alignItems: 'center',
