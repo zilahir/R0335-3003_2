@@ -17,7 +17,7 @@ const fakeApi = {
         { id: uuid.v4().toString(), featureName: 'React Navigation', description: 'Navigatin between screens, using bottom navigator', type: FeatureType.MINIMUM},
         { id: uuid.v4().toString(), featureName: 'Sign In', description: 'The application mocks a Sign In feature, using a fake API', type: FeatureType.MINIMUM},
         { id: uuid.v4().toString(), featureName: 'Sign Up', description: 'The application mocks a Sign Up feature, using a fake API', type: FeatureType.MINIMUM },
-        { id: uuid.v4().toString(), featureName: 'Bottom Tab View (inside Navigation Drawer', description: 'The application has a drawer navigator', type: FeatureType.EXTRA},
+        { id: uuid.v4().toString(), featureName: 'Navigation Drawer', description: 'The application has a drawer navigator', type: FeatureType.EXTRA},
         { id: uuid.v4().toString(), featureName: 'Redux', description: 'The app uses redux to mock fake API behaviour', type: FeatureType.EXTRA},
     ],
     getAllFeatures: (): ReadonlyArray<Features> => fakeApi.features
