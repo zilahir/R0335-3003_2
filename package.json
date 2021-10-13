@@ -6,12 +6,14 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "postinstall": "brew update && brew install --cask react-native-debugger"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
+    "hex-to-rgba": "^2.0.1",
     "@expo/vector-icons": "^12.0.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
