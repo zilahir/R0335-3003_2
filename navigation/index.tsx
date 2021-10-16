@@ -83,6 +83,8 @@ function BottomTabNavigator() {
             if (!auth) {
               // if user is not authenticated, don't let them press this tab
               pressEvent.preventDefault();
+              // and show an alert message
+              alert("You need to be logged in to navigate to this screen!")
             }
           }
         }}

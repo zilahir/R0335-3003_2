@@ -25,10 +25,10 @@ export default function WelcomeScreen() {
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Use the <MonoText style={[styles.monoText, commonStyles.highLighted]}>
+          To Use the <MonoText style={[styles.monoText, commonStyles.highLighted]}>
             bottom navigator,
           </MonoText>
-          Or Sign in on the top right corner
+          Sign in on the top right corner!
         </Text>
       </View>
     </View>
