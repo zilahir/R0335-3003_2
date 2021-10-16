@@ -26,7 +26,7 @@ interface Error {
 const ErrorMessages = {
   isPasswordCorrect: "The password you provided must be at last 5 character long",
   isUserExists: "The user you provided already exists",
-  unAuth: "Incorrect login details"
+  unAuth: "Incorrect login details! Please try again!"
 }
 
 type IUser = Omit<User, 'userId'>
