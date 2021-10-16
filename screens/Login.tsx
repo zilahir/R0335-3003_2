@@ -47,8 +47,15 @@ export default function ModalScreen() {
 
   function validateInput({userName, password}: IUser):boolean {
     const isUserExists = false
+    let errorMessages = {} as Error
     const isPasswordCorrect = password.length >= 6
-
+    if (isUserExists) {
+      errorMessages.isUserExists = true
+    }
+    if (!isPasswordCorrect) {
+      errorMessages.isPasswordCorrect = false
+    }
+    setErrorMessages(errorMessages)
     return !isUserExists && isPasswordCorrect
   }
 
@@ -100,10 +107,12 @@ export default function ModalScreen() {
       </View>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       { 
-        error && (
-          <View style={[styles.errorContainer]}>
-              <ErrorItem errorMessage="lorem ipsum dolor sit amet" />
-          </View>
+        error && errorMessages && (
+          Object.keys(errorMessages).map((errorKey) => (
+            <View key={errorKey} style={[styles.errorContainer]}>
+              <ErrorItem errorMessage={ErrorMessages[errorKey as keyof typeof ErrorMessages] as string} />
+            </View>
+          ))
         )
       }
       <View style={[styles.inputContainer]}>
