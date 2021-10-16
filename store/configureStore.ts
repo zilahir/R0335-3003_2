@@ -7,10 +7,12 @@ import {
   } from "redux";
 import thunk from "redux-thunk";
 
+import users, { UserState } from "./reducers/createNewUser";
 import test, { TestState } from './reducers/test'
 
 const rootReducer = combineReducers({
-  test
+  test,
+  users,
 })
 
 const composeEnhancers =
@@ -21,6 +23,7 @@ const middleWareList = [thunk];
 
 interface TopLevelState {
   test: TestState,
+  users: UserState
 }
 
 export const store: Store<TopLevelState> = createStore(rootReducer, composeEnhancers(applyMiddleware(...middleWareList)))

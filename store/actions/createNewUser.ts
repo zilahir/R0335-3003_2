@@ -9,6 +9,6 @@ export interface User {
 export const createNewUser = (newUser: Omit<User, 'userId'>) => ({
     type: actionTypes.CREATE_NEW_USER,
     payload: {
-        newUser,
+        ...newUser,
     }
 })
