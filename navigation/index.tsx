@@ -44,6 +44,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  // custom react hook to listen for authenticated user
   const auth = useAuth();
 
   return (
@@ -80,6 +81,7 @@ function BottomTabNavigator() {
         listeners={{
           tabPress: pressEvent => {
             if (!auth) {
+              // if user is not authenticated, don't let them press this tab
               pressEvent.preventDefault();
             }
           }

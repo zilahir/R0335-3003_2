@@ -40,12 +40,7 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
   const [error, setError] = useState<boolean>(false)
   const [errorMessages, setErrorMessages] = useState<Error>()
   const dispatch = useDispatch()
-  const store = useSelector(store => store)
   const allUsers = useSelector((store: TopLevelState) => store.users.users)
-
-  useEffect(() => {
-    console.log('store', store)
-  }, [store])
 
   function handleScreenChange(selectedScreen: LoginState) {
     setActiveScreen(selectedScreen)
@@ -57,11 +52,14 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
     let errorMessages = {} as Error
     const isPasswordCorrect = password.length >= 6
     if (isUserExists) {
+      // this user already exists
       errorMessages.isUserExists = true
     }
     if (!isPasswordCorrect) {
+      // the provided password is not correct
       errorMessages.isPasswordCorrect = false
     }
+    // set the error messages
     setErrorMessages(errorMessages)
     return !isUserExists && isPasswordCorrect
   }
@@ -72,9 +70,12 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
     if (activeScreen === LoginState.LOGIN) {
       // we are dispatcin login action
       const isUserExists = findUserByUserName(allUsers, userName);
-      console.log('isUserExists', isUserExists);
       if (isUserExists) {
+        // creating new users
+        // using our fake API
+        // which is basically a non persistent Redux storage
         dispatch(authuser(isUserExists));
+        // and navigation the user the only Protected Route we have
         navigation.navigate('Details')
       } else {
         setError(true)
@@ -87,7 +88,6 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
       setError(false)
       const isValid = validateInput({userName, password})
       // we are dispatching user creating action
-      console.log('isValid', isValid)
 
       if (isValid) {
         // no error, we can create the new user
