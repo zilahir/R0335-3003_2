@@ -56,7 +56,7 @@ function BottomTabNavigator() {
         name="Home"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Tab One',
+          title: 'Home',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
@@ -77,8 +77,15 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Details"
         component={TabTwoScreen}
+        listeners={{
+          tabPress: pressEvent => {
+            if (!auth) {
+              pressEvent.preventDefault();
+            }
+          }
+        }}
         options={{
-          title: 'Tab Two',
+          title: 'Details',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
