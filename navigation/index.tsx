@@ -6,6 +6,7 @@ import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
+import { useAuth } from '../hooks/useAuth';
 import useColorScheme from '../hooks/useColorScheme';
 import LoginScreen from '../screens/Login';
 import NotFoundScreen from '../screens/NotFoundScreen';
@@ -42,6 +43,8 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+
+  const auth = useAuth();
 
   return (
     <BottomTab.Navigator

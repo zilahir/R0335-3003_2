@@ -10,7 +10,7 @@ import { createNewUser, User } from '../store/actions/createNewUser';
 import { authuser } from '../store/actions/auth'
 import { findUserByUserName } from '../utils/api/findUser';
 import { TopLevelState } from '../store/configureStore';
-import { RootStackParamList, RootTabScreenProps } from '../types';
+import { RootTabScreenProps } from '../types';
 
 enum LoginState {
   LOGIN = 'LOGIN',
@@ -29,7 +29,7 @@ const ErrorMessages = {
 
 type IUser = Omit<User, 'userId'>
 
-export default function ModalScreen({navigation}: RootTabScreenProps<'TabTwo'>) {
+export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>) {
 
   const [userName, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -69,6 +69,12 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'TabTwo'>) 
   function handleOnSubmit(): void {
     if (activeScreen === LoginState.LOGIN) {
       // we are dispatcin login action
+      const isUserExists = findUserByUserName(allUsers, userName);
+      console.log('isUserExists', isUserExists);
+      if (isUserExists) {
+        dispatch(authuser(isUserExists));
+        navigation.navigate('Details')
+      }
     } else if (activeScreen === LoginState.SIGNUP) {
       // clearing up perviously stored error's if there's any
       setError(false)
@@ -87,15 +93,13 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'TabTwo'>) 
         Alert.alert("Success", "You have successfull signed up, Now, you can login", [
           {
             text: 'OK',
-            onPress: () => navigation.navigate('TabTwo')
+            onPress: () => handleScreenChange(LoginState.LOGIN)
           }
         ])
         // clear the values
         setUserName('')
         setPassword('')
         setPasswordVerify('')
-        // return user to login
-        handleScreenChange(LoginState.LOGIN)
       } else {
         setError(true)
       }
