@@ -18,13 +18,15 @@ enum LoginState {
 }
 
 interface Error {
-  isPasswordCorrect: boolean,
-  isUserExists: boolean,
+  isPasswordCorrect?: boolean,
+  isUserExists?: boolean,
+  unAuth?: boolean
 }
 
 const ErrorMessages = {
   isPasswordCorrect: "The password you provided must be at last 5 character long",
-  isUserExists: "The user you provided already exists"
+  isUserExists: "The user you provided already exists",
+  unAuth: "Incorrect login details"
 }
 
 type IUser = Omit<User, 'userId'>
@@ -74,6 +76,11 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
       if (isUserExists) {
         dispatch(authuser(isUserExists));
         navigation.navigate('Details')
+      } else {
+        setError(true)
+        setErrorMessages({
+          unAuth: true,
+        })
       }
     } else if (activeScreen === LoginState.SIGNUP) {
       // clearing up perviously stored error's if there's any
