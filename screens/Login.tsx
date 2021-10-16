@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react'
-import { Platform, StyleSheet, Pressable } from 'react-native';
+import { Platform, StyleSheet, Pressable, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Text, View } from '../components/Themed';
 import { TextInput } from 'react-native-gesture-handler';
 import { themeColors } from '../utils/consts';
 import { createNewUser, User } from '../store/actions/createNewUser';
+import { authuser } from '../store/actions/auth'
+import { findUserByUserName } from '../utils/api/findUser';
+import { TopLevelState } from '../store/configureStore';
+import { RootStackParamList, RootTabScreenProps } from '../types';
 
 enum LoginState {
   LOGIN = 'LOGIN',
@@ -25,7 +29,7 @@ const ErrorMessages = {
 
 type IUser = Omit<User, 'userId'>
 
-export default function ModalScreen() {
+export default function ModalScreen({navigation}: RootTabScreenProps<'TabTwo'>) {
 
   const [userName, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -35,6 +39,7 @@ export default function ModalScreen() {
   const [errorMessages, setErrorMessages] = useState<Error>()
   const dispatch = useDispatch()
   const store = useSelector(store => store)
+  const allUsers = useSelector((store: TopLevelState) => store.users.users)
 
   useEffect(() => {
     console.log('store', store)
@@ -46,7 +51,7 @@ export default function ModalScreen() {
   }
 
   function validateInput({userName, password}: IUser):boolean {
-    const isUserExists = false
+    const isUserExists = findUserByUserName(allUsers, userName)
     let errorMessages = {} as Error
     const isPasswordCorrect = password.length >= 6
     if (isUserExists) {
@@ -66,6 +71,7 @@ export default function ModalScreen() {
       // we are dispatcin login action
     } else if (activeScreen === LoginState.SIGNUP) {
       // clearing up perviously stored error's if there's any
+      setError(false)
       const isValid = validateInput({userName, password})
       // we are dispatching user creating action
       console.log('isValid', isValid)
@@ -77,6 +83,19 @@ export default function ModalScreen() {
           userName,
           password,
         }))
+        // show some message to the user about the success
+        Alert.alert("Success", "You have successfull signed up, Now, you can login", [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('TabTwo')
+          }
+        ])
+        // clear the values
+        setUserName('')
+        setPassword('')
+        setPasswordVerify('')
+        // return user to login
+        handleScreenChange(LoginState.LOGIN)
       } else {
         setError(true)
       }

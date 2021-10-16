@@ -1,5 +1,4 @@
-import * as actionTypes from './actionTypes'
-
+import { CREATE_NEW_USER } from './actionTypes'
 export interface User {
     userId: string,
     userName: string,
@@ -7,7 +6,7 @@ export interface User {
 }
 
 export const createNewUser = (newUser: Omit<User, 'userId'>) => ({
-    type: actionTypes.CREATE_NEW_USER,
+    type: CREATE_NEW_USER,
     payload: {
         ...newUser,
     }

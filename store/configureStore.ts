@@ -9,10 +9,12 @@ import thunk from "redux-thunk";
 
 import users, { UserState } from "./reducers/createNewUser";
 import test, { TestState } from './reducers/test'
+import auth, { AuthState } from './reducers/auth'
 
 const rootReducer = combineReducers({
   test,
   users,
+  auth,
 })
 
 const composeEnhancers =
@@ -21,9 +23,10 @@ const composeEnhancers =
 
 const middleWareList = [thunk];
 
-interface TopLevelState {
+export interface TopLevelState {
   test: TestState,
   users: UserState
+  auth: AuthState
 }
 
 export const store: Store<TopLevelState> = createStore(rootReducer, composeEnhancers(applyMiddleware(...middleWareList)))
