@@ -1,3 +1,4 @@
+import { DEMO_USER } from '../../utils/consts';
 import { CREATE_NEW_USER } from '../actions/actionTypes'
 import { User } from '../actions/createNewUser';
 
@@ -10,7 +11,11 @@ interface Action {
 }
 
 const initialState: UserState = {
-    users: []
+    users: [
+        {
+            ...DEMO_USER
+        }
+    ]
 }
 
 const reducer = (state = initialState, action: Action) => {

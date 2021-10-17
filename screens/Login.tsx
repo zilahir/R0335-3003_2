@@ -19,6 +19,7 @@ enum LoginState {
 
 interface Error {
   isPasswordCorrect?: boolean,
+  doesPasswordMatch?: boolean
   isUserExists?: boolean,
   unAuth?: boolean
 }
@@ -26,7 +27,8 @@ interface Error {
 const ErrorMessages = {
   isPasswordCorrect: "The password you provided must be at last 5 character long",
   isUserExists: "The user you provided already exists",
-  unAuth: "Incorrect login details! Please try again!"
+  unAuth: "Incorrect login details! Please try again!",
+  doesPasswordMatch: "Provided passwords are not matching"
 }
 
 type IUser = Omit<User, 'userId'>
@@ -48,9 +50,11 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
   }
 
   function validateInput({userName, password}: IUser):boolean {
-    const isUserExists = findUserByUserName(allUsers, userName)
+    const isUserExists = findUserByUserName(allUsers, userName.toLowerCase())
     let errorMessages = {} as Error
     const isPasswordCorrect = password.length >= 6
+    const doesPassowrdMatch = password === passwordVerify
+    console.log('passwordMatch', doesPassowrdMatch)
     if (isUserExists) {
       // this user already exists
       errorMessages.isUserExists = true
@@ -58,6 +62,11 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
     if (!isPasswordCorrect) {
       // the provided password is not correct
       errorMessages.isPasswordCorrect = false
+    }
+
+    // check whether the provided passwords are matches
+    if (!doesPassowrdMatch) {
+      errorMessages.doesPasswordMatch = false
     }
     // set the error messages
     setErrorMessages(errorMessages)
@@ -69,7 +78,7 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
   function handleOnSubmit(): void {
     if (activeScreen === LoginState.LOGIN) {
       // we are dispatcin login action
-      const isUserExists = findUserByUserName(allUsers, userName);
+      const isUserExists = findUserByUserName(allUsers, userName.toLowerCase());
       if (isUserExists) {
         // creating new users
         // using our fake API
@@ -93,7 +102,7 @@ export default function ModalScreen({navigation}: RootTabScreenProps<'Details'>)
         // no error, we can create the new user
         // by dispatching it's action
         dispatch(createNewUser({
-          userName,
+          userName: userName.toLowerCase(),
           password,
         }))
         // show some message to the user about the success
